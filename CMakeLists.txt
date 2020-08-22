@@ -4,7 +4,15 @@
 cmake_minimum_required(VERSION 3.5)
 project(azure_kinect_ros_driver LANGUAGES C CXX)
 
+# Add azure kinect cmake path to the Cmake module path
+set(AZURE_DIR "${ENV}/Documents/ML/azure-sdk")
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_CURRENT_LIST_DIR}/cmake)
+# set( CMAKE_MODULE_PATH "${AZURE_DIR}" ${CMAKE_MODULE_PATH} )
+MESSAGE(STATUS "Finding K4A SDK binaries")
+# set(k4a_DIR ${AZURE_DIR})
+
+MESSAGE(STATUS "\n\nAZURE_DIR: ${AZURE_DIR}")
+MESSAGE(STATUS "CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}\n\n")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -75,7 +83,6 @@ set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX ""
 #### AZURE KINECT SDK ######
 ############################
 
-message("Finding K4A SDK binaries")
 
 # Disable cached locations for K4A SDK binaries.
 # Do this to force the search logic to happen correctly.
@@ -87,6 +94,10 @@ message("Finding K4A SDK binaries")
 unset(k4a_DIR CACHE)
 
 # Force running the Findk4a.cmake module
+
+message(STATUS "\n Cmake module paths: ")
+message(STATUS "${CMAKE_MODULE_PATH}")
+
 find_package(k4a 1.3.0 QUIET MODULE REQUIRED)
 set(K4A_LIBS k4a::k4a;k4a::k4arecord)
 
